@@ -1,12 +1,12 @@
 import torch
 import torch.nn as nn
-from attention import MutliHeadAttention
-from transformer_layers import LayerNorm, FeedForward, GELU
+from .attention import MultiHeadAttention
+from .transformer_layers import LayerNorm, FeedForward, GELU
 
 class TransformerBlock(nn.Module):
     def __init__(self, cfg):
         super().__init__()
-        self.attn = MutliHeadAttention(
+        self.attn = MultiHeadAttention(
             d_in=cfg["emb_dim"],
             d_out=cfg["emb_dim"],
             context_length=cfg["context_length"],

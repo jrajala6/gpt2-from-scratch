@@ -1,6 +1,3 @@
-import torch
-import torch.nn as nn
-
 class LayerNorm(nn.Module):
     def __init__(self, emb_dim):
         super().__init__()
@@ -10,7 +7,7 @@ class LayerNorm(nn.Module):
 
     def forward(self, x):
         mean = x.mean(dim=-1, keepdim=True) # keepdim to ensure proper subtracting in the normalization formula 
-        var = x.var(dim=-1, keepdim=True, unbiased=False) # unbiased keeps 1/n instead of 1/(n-1)
+        var = torch.var(dim=-1, keepdim=True, unbiased=False) # unbiased keeps 1/n instead of 1/(n-1)
 
         norm_x = (x - mean) / torch.sqrt(var + self.eps)
 
@@ -24,13 +21,13 @@ class GELU(nn.Module):
         return 0.5 * x * (1 + torch.tanh(torch.sqrt(torch.tensor(2.0 / torch.pi)) * (x + 0.044715 * torch.pow(x, 3))))
     
 class FeedForward(nn.Module):
-    def __init__(self, cfg):
+    def __init__(cfg):
         super().__init__()
         self.layers = nn.Sequential(
-            nn.Linear(cfg["emb_dim"], 4*cfg["emb_dim"]),
+            nn.Linear(cfg["emd_dim"], 4*cfg["emb_dim"]),
             GELU(),
             nn.Linear(4*cfg["emb_dim"], cfg["emb_dim"])
         )
 
-    def forward(self, x):
+    def forwarf(self, x):
         return self.layers(x)

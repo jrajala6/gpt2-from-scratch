@@ -1,18 +1,8 @@
 import torch
 import torch.nn as nn
-from attention import MutliHeadAttention
-from transformer_block import TransformerBlock
-from transformer_layers import LayerNorm
-
-GPT_CONFIG_124M = {
-    "vocab_size": 50257, 
-    "context_length": 256, 
-    "emb_dim": 768, 
-    "n_heads": 12,
-    "n_layers": 12, 
-    "drop_rate": 0.1,
-    "qkv_bias": False
-}
+from .attention import MultiHeadAttention
+from .transformer_block import TransformerBlock
+from .transformer_layers import LayerNorm
 
 class GPT(nn.Module):
 
@@ -21,7 +11,7 @@ class GPT(nn.Module):
         self.tok_emb = nn.Embedding(cfg["vocab_size"], cfg["emb_dim"])
         self.pos_emb = nn.Embedding(cfg["context_length"], cfg["emb_dim"])
         self.drop_emb = nn.Dropout(cfg["drop_rate"])
-        self.trf_blocks = nn.Seqeuential(*[TransformerBlock(cfg) for _ in range(cfg["n_layers"])])
+        self.trf_blocks = nn.Sequential(*[TransformerBlock(cfg) for _ in range(cfg["n_layers"])])
         self.final_norm = LayerNorm(cfg["emb_dim"])
         self.out_head = nn.Linear(cfg["emb_dim"], cfg["vocab_size"], bias=False) # get final logits
 
@@ -34,7 +24,6 @@ class GPT(nn.Module):
         x = self.trf_blocks(x)
         x = self.final_norm(x)
         logits = self.out_head(x)
-
         return logits
 
 

@@ -7,7 +7,7 @@ class Dataset(Dataset):
         self.input_ids = []
         self.target_ids = []
 
-        token_ids = tokenizer(input_text)
+        token_ids = tokenizer.encode(input_text)
 
         for i in range(0, len(token_ids) - max_length, stride):
             self.input_ids.append(torch.tensor(token_ids[i: i + max_length]))
