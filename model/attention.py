@@ -36,7 +36,7 @@ class MultiHeadAttention(nn.Module):
         self.key =  nn.Linear(d_in, d_out, bias=qkv_bias)
         self.value =  nn.Linear(d_in, d_out, bias=qkv_bias)
         self.dropout = nn.Dropout(dropout)
-        self.out_proj = nn.Linear(d_out, d_out, bias=False)
+        self.out_proj = nn.Linear(d_out, d_out)
         self.register_buffer("mask", torch.tril(torch.ones(context_length, context_length)))
 
     def forward(self, x):
@@ -82,3 +82,8 @@ class MultiHeadAttention(nn.Module):
         return torch.cat([head(x) for head in self.heads], dim=-1) 
 """
         
+
+
+
+
+

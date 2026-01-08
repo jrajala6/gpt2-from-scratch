@@ -87,3 +87,13 @@ def plot_losses(epochs_seen, tokens_seen, train_losses, val_losses):
     ax2.legend()
     fig.tight_layout()
     plt.show()
+
+def text_to_token_ids(text, tokenizer):
+    encoded = tokenizer.encode(text, allowed_special={'<|endoftext|>'})
+    encoded_tensor = torch.tensor(encoded).unsqueeze(0) # adds batch dimension
+    return encoded_tensor
+
+def token_ids_to_text(token_ids, tokenizer):
+    flat = token_ids.squeeze(0) # removes batch dimension 
+    return tokenizer.decode(flat.tolist())
+

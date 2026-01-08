@@ -24,6 +24,6 @@ class GPT(nn.Module):
         x = self.trf_blocks(x)
         x = self.final_norm(x)
         logits = self.out_head(x)
-        return logits
+        return logits 
 
 
